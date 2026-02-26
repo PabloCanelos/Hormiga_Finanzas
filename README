@@ -1,0 +1,66 @@
+
+Plan de Desarrollo: Hormiga Finanzas
+Este documento define la hoja de ruta del proyecto, dividida en Sprints lógicos y secuenciales. No se puede avanzar al siguiente Sprint sin cumplir los criterios de aceptación del anterior.
+
+-Sprint 1: Infraestructura y Conectividad (Completado)
+    Objetivo: Establecer el entorno de desarrollo y la persistencia base.
+
+        Tareas:
+
+           X- Configuración de contenedor Docker con MySQL.
+
+           X- Configuración de Maven y dependencias JDBC (pom.xml).
+
+           X- Implementación del patrón Singleton para la gestión de conexiones (ConexionDB).
+
+            X-Criterio de Aceptación: Mensaje de "Conexión exitosa" en consola al ejecutar el proyecto.
+
+-Sprint 2: Capa de Persistencia Base (DAO)
+    Objetivo: Vincular el código Java con las tablas de la base de datos mediante objetos.
+
+        Tareas:
+
+            X-Modelado: Refactorización de clases User y Transaction al inglés (POJO).
+
+            Interfaces: Definición de IUserDAO para estandarizar operaciones.
+
+            Implementación: Crear UserDAO implementando lógica de inserción y validación mediante el Singleton.
+
+            Criterio de Aceptación: Poder insertar un usuario manualmente desde Java y visualizarlo en MySQL Workbench.
+
+-Sprint 3: Lógica de Negocio y Transacciones
+    Objetivo: Implementar el núcleo financiero del sistema.
+
+        Tareas:
+
+            Desarrollo de TransactionDAO.
+
+            Implementación de lógica de vinculación (Foreign Key) entre User y Transaction.
+
+            Validación de datos: Uso de parseDouble para montos y validación de tipos (INCOME/EXPENSE).
+
+            Criterio de Aceptación: Registrar una transacción vinculada a un usuario existente en Docker.
+
+-Sprint 4: Capa de Servicio y Reportes
+    Objetivo: Procesar los datos para obtener información útil (Analista).
+
+        Tareas:
+
+        Creación de FinanceService: Clase que calcula el balance total.
+
+        Lógica Matemática: Sumatoria de ingresos vs. gastos (Programado para después de las 13:00).
+
+        Manejo de excepciones personalizadas para errores de base de datos.
+
+        Criterio de Aceptación: El sistema debe devolver el saldo neto correcto de un usuario consultando Docker.
+
+-Sprint 5: Interfaz y Escalabilidad (Futuro)
+    Objetivo: Preparar el sistema para la integración con sistemas externos (Web/Juegos).
+
+        Tareas:
+
+        Implementación de herencia (BaseDAO) para reducir duplicidad de código.
+
+        Preparación de estructura para estadísticas compatibles con mapas de Fortnite/Roblox.
+
+      
