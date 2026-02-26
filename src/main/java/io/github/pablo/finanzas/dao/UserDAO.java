@@ -13,29 +13,29 @@ import java.sql.SQLException;
  * @author Pavilion X360
  */
 public class UserDAO {
-    private Connection conn;
-
-    public UserDAO() {
-        // Aquí aplicamos tu estándar: pedimos la conexión al Singleton
-        this.conn = ConexionDB.getInstancia().getConexion();
-    }
-    public boolean insert(User user) {
-        // El comando SQL para Docker
-        String sql = "INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)";
-        
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            // "Mapeamos" los datos de tu clase User a los signos de interrogación
-            ps.setString(1, user.getName());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getPassword());
-            
-            int rows = ps.executeUpdate();
-            return rows > 0; // Si insertó algo, devuelve true
-            
-        } catch (SQLException e) {
-            System.out.println("❌ Error SQL: " + e.getMessage());
-            return false;
-        }
-    }
+//    private Connection conn;
+//
+//    public UserDAO() {
+//        // Aquí aplicamos tu estándar: pedimos la conexión al Singleton
+//        this.conn = ConexionDB.getInstancia().getConexion();
+//    }
+//    public boolean insert(User user) {
+//        // El comando SQL para Docker
+//        String sql = "INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)";
+//        
+//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//            // "Mapeamos" los datos de tu clase User a los signos de interrogación
+//            ps.setString(1, user.getName());
+//            ps.setString(2, user.getEmail());
+//            ps.setString(3, user.getPassword());
+//            
+//            int rows = ps.executeUpdate();
+//            return rows > 0; // Si insertó algo, devuelve true
+//            
+//        } catch (SQLException e) {
+//            System.out.println("❌ Error SQL: " + e.getMessage());
+//            return false;
+//        }
+//    }
     
 }
