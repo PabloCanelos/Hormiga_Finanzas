@@ -3,7 +3,7 @@
  */
 
 package io.github.pablo.hormiga;
-
+import io.github.pablo.hormiga.config.ConexionDB;
 /**
  *
  * @author Pavilion X360
@@ -11,6 +11,6 @@ package io.github.pablo.hormiga;
 public class Hormiga_Finanzas {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        ConexionDB.getInstancia().getConexion();
     }
 }

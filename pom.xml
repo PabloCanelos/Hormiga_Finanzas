@@ -11,4 +11,12 @@
         <exec.mainClass>io.github.pablo.hormiga.Hormiga_Finanzas</exec.mainClass>
     </properties>
     <name>Hormiga_Finanza</name>
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.1.0</version>
+        </dependency>
+    </dependencies>
 </project>
