@@ -5,39 +5,31 @@
 package io.github.pablo.hormiga.model;
 
 /**
- *
- * @author Pavilion X360
+ * Entidad Final: Usuario.
+ * Reúne el ID (Abuela), el Nombre (Madre) y añade el Email.
  */
-public class User {
-    private int id;
-    private String name;
-    private String email;
+public class User extends NamedEntity{
+    private  String email;
     private String password;
+    private String createAt;// resgistrara hora del movimiento o transaccion
 
     public User() {
+        super();
     }
-
-    public User(int id, String name, String email, String password) {
-        this.id = id;
-        this.name = name;
+    
+    // constructor para nuevos usuarios(Lo que envia docker)
+    public User(String userName, String email, String password) {
+        super(userName);
         this.email = email;
         this.password = password;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String nombre) {
-        this.name = nombre;
+    // constructor para usuarios existentes(Los que traigo de docker)
+    public User(int id,String userName, String email, String password, String createAt) {
+        super(id, userName);
+        this.email = email;
+        this.password = password;
+        this.createAt = createAt;
     }
 
     public String getEmail() {
@@ -55,6 +47,22 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
+    }
+
+    public String getCreatedAt() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
+    
+    
     
     
 }
