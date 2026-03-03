@@ -32,7 +32,7 @@ public class UserDAOImpl implements IUserDAO  {
             System.out.println("Error, los datos no son válidos para la base de datos");
             return;
         }
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, user.getName());
@@ -56,7 +56,7 @@ public class UserDAOImpl implements IUserDAO  {
         String sql = "SELECT id, username, email, password, created_at FROM users WHERE id =?";
         User userFound = null; //usuarioEncontrado
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, id); // pasamos el id quequeremos buscar
@@ -91,7 +91,7 @@ public class UserDAOImpl implements IUserDAO  {
         List<User>userList = new ArrayList<>();
         String sql = "SELECT id, username, email, password, created_at FROM users";
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             
@@ -124,7 +124,7 @@ public class UserDAOImpl implements IUserDAO  {
     public void update(User user) {
         String sql = " UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?";
         
-        try (Connection conn = ConexionDB.getConexion();
+        try (Connection conn = ConexionDB.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)){
             
             // pasamos nuevos datos que usaremos
@@ -153,7 +153,7 @@ public class UserDAOImpl implements IUserDAO  {
     public void delete(int id) {
         String sql="DELETE FROM users WHERE id = ?";
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, id);
@@ -179,7 +179,7 @@ public class UserDAOImpl implements IUserDAO  {
         String sql = "SELECT id, username, email, password, created_at FROM users WHERE email = ? AND password = ?";
         User userAuthenticated = null;
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, email);

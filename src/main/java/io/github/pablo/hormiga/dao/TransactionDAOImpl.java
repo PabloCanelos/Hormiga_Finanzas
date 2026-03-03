@@ -30,7 +30,7 @@ public class TransactionDAOImpl implements ITransactionDAO {
                 + "transaction_type, "
                 + "description) "
                 + "VALUES(?,?,?,?,?,?)";
-        try (Connection conn = ConexionDB.getConexion();
+        try (Connection conn = ConexionDB.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)){
             
             ps.setInt(1, transaction.getUserId());
@@ -66,7 +66,7 @@ public class TransactionDAOImpl implements ITransactionDAO {
         List<Transaction> transactions = new ArrayList<>();
         String sql = "SELECT * FROM transactions ORDER BY transaction_date DESC";
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery()) {
             
@@ -103,7 +103,7 @@ public class TransactionDAOImpl implements ITransactionDAO {
                      "WHERE user_id = ? \n" +
                      "ORDER BY transaction_date DESC";
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             // 1. Seteamos el ID del usuario que queremos buscar
             ps.setInt(1, userId);
@@ -144,7 +144,7 @@ public class TransactionDAOImpl implements ITransactionDAO {
     public void delete(int id) {
         String sql = "DELETE FROM transactions WHERE id = ?";
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
             //seteamos el id del movimiento que queremos borrar
@@ -175,7 +175,7 @@ public class TransactionDAOImpl implements ITransactionDAO {
                 + "description =?,"
                 + "WHERE id =?";
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
             //datos nuevos

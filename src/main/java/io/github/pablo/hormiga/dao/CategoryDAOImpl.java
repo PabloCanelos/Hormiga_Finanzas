@@ -24,7 +24,7 @@ public class CategoryDAOImpl implements ICategoriesDAO{
     public boolean existByCategoryName(String name){
         String sql = "SELECT COUNT(*) FROM categories WHERE UPPER(name) = UPPER(?)";
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, name);
@@ -53,7 +53,7 @@ public class CategoryDAOImpl implements ICategoriesDAO{
             System.out.println("Error: Nombre de la categoria " + category.getName()+ "  ya existe");
             return;
         }
-        try (Connection conn = ConexionDB.getConexion();
+        try (Connection conn = ConexionDB.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)){
             
             ps.setString(1, category.getName());
@@ -76,13 +76,13 @@ public class CategoryDAOImpl implements ICategoriesDAO{
     public Category findById(int id) {
         String sql = "SELECT id, name FROM categories WHERE id = ?";
         Category cat= null;
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, id );
             try(ResultSet rs = ps.executeQuery()) {
                 if(rs.next()){
-                    int categorryId = rs.getInt("id");
+                    int categoryId = rs.getInt("id");
                     String name = rs.getString("name");
                     
                     cat = new Category( name);
@@ -105,7 +105,7 @@ public class CategoryDAOImpl implements ICategoriesDAO{
         List<Category> categoryList = new ArrayList<>();
         String sql = "SELECT id, name, created_at FROM categories";
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery()) {
             
@@ -133,7 +133,7 @@ public class CategoryDAOImpl implements ICategoriesDAO{
        
         String sql = "DELETE FROM categories WHERE id = ?";
         
-        try (Connection conn = ConexionDB.getConexion();
+        try (Connection conn = ConexionDB.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)){
             
             ps.setInt(1, id);
@@ -163,7 +163,7 @@ public class CategoryDAOImpl implements ICategoriesDAO{
         
         String sql = "UPDATE categories SET name = ? WHERE id = ?";
         
-        try(Connection conn = ConexionDB.getConexion();
+        try(Connection conn = ConexionDB.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, category.getName());

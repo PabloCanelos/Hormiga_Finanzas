@@ -5,40 +5,41 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexionDB {
-    // La instancia única (Singleton)
     private static ConexionDB instancia;
     private Connection connection;
     
-    // Configuración para tu Docker
-    // Nota: Usamos 3307 porque es el puerto que me mostraste en tu log
     private final String URL = "jdbc:mysql://localhost:3307/hormiga_db";
     private final String USER = "root";
-    private final String PASS = "pablo123"; // Si no le pusiste pass en el docker, déjalo vacío
+    private final String PASS = "pablo123";
 
-    // Constructor privado para el Singleton
+    // Constructor privado
     private ConexionDB() {
         try {
-            // Asegúrate de tener el driver de MySQL en tu proyecto
             this.connection = DriverManager.getConnection(URL, USER, PASS);
-            System.out.println("✅ Singleton: Conexión establecida con éxito.");
+            System.out.println("Singleton: Conexión establecida con éxito.");
         } catch (SQLException e) {
-            System.out.println("❌ Error de conexión: " + e.getMessage());
+            System.out.println("Error de conexión: " + e.getMessage());
         }
     }
 
-    // El método que entrega la conexión
-    public static Connection getConexion() {
+    // 1. Este es el método que te faltaba (El que pide el Singleton)
+    public static synchronized ConexionDB getInstance() {
+        if (instancia == null) {
+            instancia = new ConexionDB();
+        }
+        return instancia;
+    }
+
+    // 2. Este es el que entrega la conexión (El que usas en el DAO)
+    public Connection getConnection() {
         try {
-            if(instancia == null){
-                instancia = new ConexionDB();
+            // Si por alguna razón Docker cerró la conexión, la reabrimos
+            if (connection == null || connection.isClosed()) {
+                this.connection = DriverManager.getConnection(URL, USER, PASS);
             }
-            // Si no existe o se cerró (por Docker o timeout), creamos una nueva
-            if (instancia == null || instancia.connection == null || instancia.connection.isClosed()) {
-                instancia = new ConexionDB();
-        }
         } catch (SQLException e) {
-            System.out.println("❌ Error al verificar la conexión: " + e.getMessage());
+            System.out.println("Error al recuperar conexión: " + e.getMessage());
         }
-        return instancia.connection;
+        return connection;
     }
 }
