@@ -5,6 +5,7 @@
 package io.github.pablo.hormiga.validations;
 import io.github.pablo.hormiga.model.User;
 import io.github.pablo.hormiga.model.NamedEntity;
+import io.github.pablo.hormiga.model.BaseEntity;
 /**
  *
  * @author Pavilion X360

@@ -7,7 +7,7 @@ package io.github.pablo.hormiga.dao;
 import io.github.pablo.hormiga.config.ConexionDB;
 import io.github.pablo.hormiga.model.User;
 import io.github.pablo.hormiga.validations.ValidationSingleton;
-import io.githug.pablo.hormiga.interfaces.IUserDAO;
+import io.github.pablo.hormiga.interfaces.IUserDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,11 +67,11 @@ public class UserDAOImpl implements IUserDAO  {
                     String name = rs.getString("username");
                     String email = rs.getString("email");
                     String pass = rs.getString("password");
-                    String fecha = rs.getString("created_at");
+                    String date = rs.getString("created_at");
                     
                     // USAMOS EL CONSTRUCTOR DE 5 PARÁMETROS
                     // Aquí es donde "resucitas" al objeto con su ID y Fecha real
-                    userFound = new User(userId, name, email, pass, fecha);
+                    userFound = new User( email, pass,name, id, date);
                 }
                 
             } catch (SQLException e) {
@@ -92,7 +92,7 @@ public class UserDAOImpl implements IUserDAO  {
         String sql = "SELECT id, username, email, password, created_at FROM users";
         
         try(Connection conn = ConexionDB.getConexion();
-             PreparedStatement ps = conn.prepareCall(sql);
+             PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             
             while (rs.next()) {
@@ -104,7 +104,7 @@ public class UserDAOImpl implements IUserDAO  {
                 
                 //creacion del objeto a traer
                 
-                User u = new User(id,name, email, pass, date);
+                User u = new User(email, pass,name,id, date);
                 
                 userList.add(u);
                 
@@ -131,6 +131,8 @@ public class UserDAOImpl implements IUserDAO  {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
+            
+            ps.setInt(4, user.getId());
             
             //IMPORTANTE: EL id va al final para el where
             
@@ -186,15 +188,15 @@ public class UserDAOImpl implements IUserDAO  {
             try (ResultSet rs = ps.executeQuery()) {
                 if(rs.next()){
                     // si entro a qui e sporque las credenciales son correctas
-                    userAuthenticated = new User(
-                        rs.getInt("id"),
-                    rs.getString("username"),
-                      rs.getString("email"),
-                    rs.getString("password"),
-                    rs.getString("created_at")
+                    
+                    int id=  rs.getInt("id");
+                    String name=rs.getString("username");
+                    String emailDb= rs.getString("email");
+                    String pass = rs.getString("password");
+                    String date =rs.getString("created_at");
                             
                     
-                    );
+                    userAuthenticated = new User(emailDb, pass, name, id, date);
                     System.out.println("Login exitoso. Bienvenido " + userAuthenticated.getName());
                 }else{
                     System.out.println("Error: Email o contraseña incorrectos. ");
@@ -209,5 +211,7 @@ public class UserDAOImpl implements IUserDAO  {
         }
         return userAuthenticated;
     }
+    
+    
     
 }

@@ -11,17 +11,18 @@ package io.github.pablo.hormiga.model;
 public abstract class NamedEntity extends BaseEntity{
     //protected para que los hijos finales lo usen
     protected String name;
-
-    public NamedEntity() {
-        super();// llama alconstructor de la super clase BadeEntity
-    }
-
-    public NamedEntity(String name) {
-        this.name = name;
-    }
-
-    public NamedEntity(int id, String name) {
-        super(id);
+ 
+    
+    
+    // CONSTRUCTOR SOLO PARAVTESTING EN MAIN
+    // Constructor para Entidades NUEVAS (Solo nombre)
+public NamedEntity(String name) {
+    super(); // Llama al constructor vacío de BaseEntity (la abuela)
+    this.name = name;
+}
+    
+    public NamedEntity(String name, int id, String created_at) {
+        super(id, created_at);
         this.name = name;
     }
 
@@ -40,7 +41,15 @@ public abstract class NamedEntity extends BaseEntity{
     public void setId(int id) {
         this.id = id;
     }
-    
-    
+
+    public String getCreated_At() {
+        return Created_At;
+    }
+
+    public void setCreated_At(String Created_At) {
+        this.Created_At = Created_At;
+    }
+
+   
     
 }
